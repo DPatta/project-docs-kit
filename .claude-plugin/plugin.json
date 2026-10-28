@@ -1,0 +1,10 @@
+{
+  "name": "project-docs-kit",
+  "description": "Set up or adopt project documentation so any AI agent can pick a project up from AGENTS.md",
+  "version": "1.0.0",
+  "author": { "name": "DPatta" },
+  "homepage": "https://github.com/DPatta/project-docs-kit",
+  "repository": "https://github.com/DPatta/project-docs-kit",
+  "license": "MIT",
+  "keywords": ["agents-md", "project-setup", "documentation", "skills"]
+}

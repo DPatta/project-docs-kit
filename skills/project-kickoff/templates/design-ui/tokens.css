@@ -1,0 +1,12 @@
+/*
+ * Design tokens: the single source of every visual value (see ../DESIGN.md).
+ * Empty until a design proposal is approved. Then define each token once for light mode in
+ * :root and override it for dark mode below; theme files copy their values from here.
+ */
+:root {
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+  }
+}

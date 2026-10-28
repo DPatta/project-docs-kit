@@ -1,0 +1,5 @@
+dev/
+.DS_Store
+
+# Skill templates, even when a global gitignore excludes CLAUDE.md
+!/skills/*/templates/CLAUDE.md

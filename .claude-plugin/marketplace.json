@@ -1,0 +1,13 @@
+{
+  "name": "project-docs-kit",
+  "owner": { "name": "DPatta" },
+  "description": "Skills that give any project an AGENTS.md-based documentation set for AI agents",
+  "plugins": [
+    {
+      "name": "project-docs-kit",
+      "description": "Set up or adopt project documentation so any AI agent can pick a project up from AGENTS.md",
+      "version": "1.0.0",
+      "source": "./"
+    }
+  ]
+}
