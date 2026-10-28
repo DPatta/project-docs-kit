@@ -167,8 +167,10 @@ and write the result. If an instruction says to delete a line or section, delete
 mentions a path that does not exist yet (e.g. "put SQL in `src/db/` once it exists"), write it
 without backticks and add "(planned)".
 
-**File names** for tasks, issues and reports: `<kind>-<NNNN>-<kebab-topic>-<DATE>.md`, where
-`kebab-topic` is 2–5 lowercase English words, `[a-z0-9-]` only.
+**File names** for features, tasks, issues and reports: `<kind>-<NNNN>-<kebab-topic>-<DATE>.md`, where
+`kebab-topic` is 2–5 lowercase English words, `[a-z0-9-]` only: delete any other character
+without replacing it (`CI/CD` → `cicd`); a hyphenated word keeps its hyphen and counts as one
+word (`Decide phase-1 features` → `decide-phase-1-features`).
 
 **Self-check before handoff:**
 - For every saved original, `diff <original> <file>` prints no line starting with `<`.

@@ -9,7 +9,9 @@ suggest, and typical phases to propose.
 - **Type doc:** `docs/STACK.md` — template `templates/docs/STACK.md`
 - **Purpose line:** languages, frameworks, infrastructure and tooling, with the reasons for each choice
 - **Gap questions** (only if the brief does not answer them):
-  - Main language / framework?
+  - Main language / framework? — skip it when the brief names either one; the one it does not
+    name is `Undecided` with a Decide task, without a question (Next.js stated → Language
+    `Undecided`, not TypeScript)
   - Where will it run or be hosted?
   - Does it have a user interface (web, mobile or desktop screens)? — only if the brief does not say
 - **Working rules:**

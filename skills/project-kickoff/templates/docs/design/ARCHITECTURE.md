@@ -18,7 +18,7 @@ whenever a feature's Impact names it.
 
 ## Components
 
-{{COMPONENTS: one bullet "- <part> — <role>" per part the source states; otherwise "Not designed yet" for a new project, "Not documented yet" for an existing one}}
+{{COMPONENTS: one bullet "- <part> — <role>" per part the source states, with only the technology the source names for it ("a web app … Next.js" → "- Web app — built with Next.js"); otherwise "Not designed yet" for a new project, "Not documented yet" for an existing one}}
 
 ## Data flow
 
@@ -26,7 +26,7 @@ whenever a feature's Impact names it.
 
 ## External services
 
-{{EXTERNAL: one bullet per external service the source names (hosting, database, auth, email, payments, …); otherwise "Not designed yet" for a new project, "Not documented yet" for an existing one}}
+{{EXTERNAL: one bullet per external service the source names (hosting, database, auth, email, payments, …), with its role only when the source states it ("- Vercel — hosting", "- Supabase — role not stated"); otherwise "Not designed yet" for a new project, "Not documented yet" for an existing one}}
 
 ## Constraints
 

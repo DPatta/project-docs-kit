@@ -21,7 +21,7 @@ Rules for agent tasks, issues, reports and decisions in this project. Templates 
 
 - `<kind>`: `feature`, `task`, `issue` or `report`
 - `<NNNN>`: 4-digit zero-padded run number, starting at `0001`
-- `<kebab-topic>`: 2–5 lowercase English words, characters `[a-z0-9-]` only
+- `<kebab-topic>`: 2–5 lowercase English words, characters `[a-z0-9-]` only; delete any other character without replacing it (`CI/CD` → `cicd`); a hyphenated word keeps its hyphen and counts as one word (`Decide phase-1 features` → `decide-phase-1-features`)
 - `<YYYY-MM-DD>`: creation date — never changes, even when the file is updated
 
 Example: `{{TASKS_DIR}}task-0007-add-login-form-2026-11-02.md`

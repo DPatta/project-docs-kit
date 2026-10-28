@@ -14,9 +14,11 @@ are in `references/project-types.md`.
 - **Never overwrite.** Before writing any file, check that it does not exist. If it does, skip
   it and report it at handoff.
 - **Never invent.** Anything the user did not provide or answer is written as `Undecided` and
-  gets a `Decide <topic>` task (the only exceptions: later phases, the `ui-design-system`
-  feature, optional fallbacks such as `Not designed yet`, and the one shared
-  `Decide phase-1 features` task — see steps 3 and 6). A common default is not an answer — see step 3.
+  gets a `Decide <topic>` task. The only exceptions: the name and goal of each phase, phase-1
+  included, when the brief does not state them (proposed from the type's typical phases and
+  shown as proposed in step 5), the
+  `ui-design-system` feature, optional fallbacks such as `Not designed yet`, and the one shared
+  `Decide phase-1 features` task — see steps 3, 5 and 6. A common default is not an answer — see step 3.
 - **English only** in every generated file — names, frontmatter and body. Talk with the user in
   whatever language they use.
 - **No git commits** unless the user says yes at handoff.
@@ -29,12 +31,13 @@ are in `references/project-types.md`.
 Target directory = the current working directory, unless the user names another one.
 
 Stop immediately and write nothing if any of these exist in the target: `AGENTS.md`,
-`CLAUDE.md`, `docs/PROJECT.md`. Tell the user the project already has documentation, that
-project-kickoff only sets up new projects and never overwrites, and that existing projects
-should use the project-adopt skill instead — unless `AGENTS.md` contains
-`managed-by: project-adopt`: then say it was already set up by project-adopt, which has no
-refresh mode yet; or the target has `.claude/skills/project-docs/SKILL.md`: then say it was
-already set up by project-kickoff.
+`CLAUDE.md`, `docs/PROJECT.md`. Tell the user that project-kickoff only sets up new projects
+and never overwrites, then the first case that applies:
+- `AGENTS.md` contains `managed-by: project-adopt` → it was already set up by project-adopt,
+  which has no refresh mode yet.
+- the target has `.claude/skills/project-docs/SKILL.md` → it was already set up by
+  project-kickoff; there is nothing to set up.
+- otherwise → the project already has documentation; use the project-adopt skill instead.
 
 If `docs/` exists but `docs/PROJECT.md` does not, stop and ask whether `docs/` belongs to
 something else and whether to continue. Continue only on an explicit yes.
@@ -62,7 +65,7 @@ Map the brief onto this checklist:
 | 8 | Users / beneficiaries | PROJECT.md | ask |
 | 9 | Scope | PROJECT.md | derive from brief; ask only if unclear |
 | 10 | Later phases | ROADMAP.md | propose from the type's typical phases; confirmed in step 5 |
-| 11 | Problem / motivation | PROJECT.md | derive; else `Undecided` |
+| 11 | Problem / motivation | PROJECT.md | restate the need behind the brief's stated purpose, adding nothing; else `Undecided` |
 | 12 | Constraints | PROJECT.md | `None stated` |
 
 Rules:
@@ -74,6 +77,10 @@ Rules:
   for Next.js, CI from the hosting provider, an auth method, a coverage threshold, standard
   setup features. Such a value is `Undecided`, or an option offered in a question.
   Stated values are carried over without added detail — see "Filling templates" in step 6.
+- **Goals (item 3)** are answered when the brief states what the project is for ("a web app
+  for groups of friends to split travel expenses" → `Let groups of friends split travel
+  expenses.`). Write only what it states, as few bullets as that gives. A feature or MVP list
+  is scope, not a goal.
 - One question per message; multiple choice when possible.
 - **At most 7 questions in total.** Ask in table order. When the budget is used up, every
   remaining gap becomes `Undecided`.
@@ -116,7 +123,8 @@ Ask these questions, one per message, even when the gap budget is used up:
 Show, in the user's language:
 - the full file tree to be created
 - PROJECT.md essentials: name, type, goals, non-goals, success criteria
-- phases, with phase-1 marked active, and the features of each phase
+- phases, with phase-1 marked active and every phase name or goal the brief does not state
+  marked `(proposed)`, and the features of each phase
 - the initial task list (number + title)
 - design docs: `docs/design/ARCHITECTURE.md` (Software), and the UI set `DESIGN.md` +
   `design-ui/` with its `ui-design-system` feature (projects with a user interface)
@@ -133,9 +141,13 @@ Revise until the user explicitly confirms. Do not write any file before that.
 
 1. `docs/PROJECT.md` ← `templates/docs/PROJECT.md`
 2. `docs/ROADMAP.md` ← `templates/docs/ROADMAP.md` (phase-1 `active`, later phases `planned`).
-   Later phases get a proposed name and goal (confirmed in step 5). Their exit criteria come
-   only from the brief or answers. Otherwise they are `Undecided` **without** a Decide task;
-   they are settled when that phase becomes active.
+   Each phase's name and goal come from the brief when it states them; otherwise they are
+   proposed from the type's typical phase (confirmed in step 5). A label the brief puts on a
+   list ("MVP: …") states that phase's name, not its goal. A proposed goal says what the
+   phase is for, in general terms (e.g. Foundation: `Set up the project so features can be
+   built.`); it never adds features or thresholds. Later phases' exit criteria come only from
+   the brief or answers. Otherwise they are `Undecided` **without** a Decide task; they are
+   settled when that phase becomes active.
 3. `docs/<TYPE-DOC>.md` ← the type's template only
 4. `docs/features/` ← `templates/skills/project-docs/templates/feature.md`:
    - one file per feature confirmed in step 5, numbered from `0001` in phase order
@@ -165,7 +177,9 @@ Revise until the user explicitly confirms. Do not write any file before that.
 7. `docs/DECISIONS.md` ← `templates/docs/DECISIONS.md` (D-0001 records the kickoff decisions)
 8. `docs/tasks/` ← `templates/skills/project-docs/templates/task.md`:
    - first, one `Decide <topic>` task per `Undecided` item (no cap; never merge them), each
-     with `feature: none`
+     with `feature: none`, in this order: PROJECT.md items, then the type doc's areas in its
+     table order, then `Decide phase-1 features`. `<topic>` is the item or area name as the
+     doc writes it, lowercased (`Decide testing`, `Decide data / storage`)
    - then 2–6 tasks for the phase-1 features, each with `feature:` set to its feature.
      When the brief's phase-1 features are `Undecided`, only `ui-design-system` (if any)
      gets tasks — the `Decide phase-1 features` task covers the rest.
@@ -215,8 +229,10 @@ from the brief):
 - If an instruction says to delete the line when there is no value, delete the whole line.
 - No `{{` may remain in any generated file outside `.claude/skills/project-docs/`.
 
-**File names** for tasks, issues and reports: `<kind>-<NNNN>-<kebab-topic>-<DATE>.md`.
-`kebab-topic` = 2–5 lowercase English words from the title, `[a-z0-9-]` only.
+**File names** for features, tasks, issues and reports: `<kind>-<NNNN>-<kebab-topic>-<DATE>.md`.
+`kebab-topic` = 2–5 lowercase English words from the title, joined by `-`, `[a-z0-9-]` only:
+delete any other character without replacing it (`CI/CD` → `cicd`); a hyphenated word keeps
+its hyphen and counts as one word (`Decide phase-1 features` → `decide-phase-1-features`).
 Example: `docs/tasks/task-0001-decide-hosting-provider-2026-10-24.md`.
 
 **Self-check before handoff**

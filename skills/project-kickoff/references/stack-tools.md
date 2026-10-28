@@ -62,12 +62,14 @@ candidates together (§4).
 ## 4. Matching
 
 - A tool matches an item when the item's name appears in the tool's name or description,
-  case-insensitive (`Next.js` also matches `nextjs` and `next-js`), **and** the tool is about
+  case-insensitive (`Next.js` also matches `nextjs` and `next-js`; a part of the name such as
+  `next` does not, so `next-devtools` is no match), **and** the tool is about
   that technology as the project uses it. Another product of the same vendor is not a match:
   a Vercel AI SDK skill does not match `Vercel` used as hosting.
 - Choose in this order:
   1. Per item and group, sort candidates by: name match before description-only match; then
-     installed before installable; then alphabetical. Keep the first **2**.
+     installed before installable; then alphabetical by name, ignoring a `<plugin>:` prefix
+     (`ecc:nextjs-turbopack` sorts as `nextjs-turbopack`). Keep the first **2**.
   2. A tool kept for several items counts once, under the item where it ranks highest.
   3. Per group, merge the kept tools of all items and sort them the same way (name match
      first — an installable name match outranks an installed description-only match). Keep
@@ -91,7 +93,8 @@ budget. Show one line per suggestion:
 One answer per tool: **reference**, **install** (only for `installable`) or **skip**. The
 user may answer several tools in one message; "None" skips all. Choosing **install** for an
 `MCP` or `plugin + MCP` tool is the explicit request to set up that MCP server; **reference**
-puts its install command in the table instead.
+puts its install command in the table instead. For `plugin + MCP`, the plugin install sets up
+its MCP server: run only `claude plugin install`, never a separate `claude mcp add`.
 
 ## 6. Install
 
