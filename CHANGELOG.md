@@ -5,7 +5,7 @@ and the project structure version that `project-kickoff` writes to
 `.claude/skills/project-docs/KIT-VERSION` in a project, so a later release can tell which
 structure a project was made with.
 
-## 1.0.0 — unreleased (project structure 1)
+## 1.0.0 — 2026-10-29 (project structure 1)
 
 First public release.
 
