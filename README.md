@@ -55,6 +55,27 @@ DESIGN.md, design-ui/          look and feel (projects with a UI)
 
 `project-adopt` writes `AGENTS.md` and adds only the parts you approve.
 
+## What the skills read, run and fetch
+
+The plugin has no hooks, MCP servers or scripts; everything below is done by the agent
+following the skill text, with your approval where noted.
+
+- **Project files:** read the target folder (project-adopt scans code, manifests, docs and
+  `git log`), write the docs listed above after you confirm a summary, and run read-only git
+  commands such as `git status`.
+- **Stack tools (Claude Code only, optional):** to suggest skills, agents, plugins and MCP
+  servers for your stack, the skills read the names and descriptions of what is installed
+  (`~/.claude/skills`, `~/.claude/agents`, installed plugins, configured marketplaces, and
+  MCP server names from `claude mcp list` — never their env values or headers). If nothing
+  installed matches, they may run a web search limited to the vendor's or Anthropic's GitHub
+  organisations and read the matching repositories.
+- **Installs, only for the tools you choose and only after you approve the exact command:**
+  `claude plugin install <name>@<marketplace>`, a vendor's documented `claude mcp add --scope
+  user …` without any secret, or copying a skill or agent you reviewed from such a repository
+  into `~/.claude/skills/` or `~/.claude/agents/`.
+- Nothing is sent anywhere else, and no data is stored outside your project and those
+  install locations.
+
 ## What the skills never do
 
 - commit without your yes
