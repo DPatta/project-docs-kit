@@ -13,7 +13,7 @@ Full detail: [docs/PROJECT.md](docs/PROJECT.md)
 5. `docs/issues/` — issues with `status: open` or `investigating` may block tasks
 6. `docs/DECISIONS.md` — check before proposing an alternative to something already decided
 7. `docs/{{TYPE_DOC: STACK.md, METHODS.md, STYLE.md or RESOURCES.md}}` — {{TYPE_DOC_PURPOSE: purpose line from references/project-types.md}}
-{{DESIGN_DOCS: "8. `docs/design/ARCHITECTURE.md` — how the system fits together" if it was created; then "<next number>. `DESIGN.md` — the UI look and feel; build screens only from its approved mockups" if it was created; delete this line if neither}}
+{{DESIGN_DOCS: "8. `docs/design/ARCHITECTURE.md` — how the system fits together" if it exists; then "<next number>. `DESIGN.md` — the UI look and feel; build screens only from its approved mockups" if it exists; then "<next number>. `docs/design/` — other design notes: `<file>`, `<file>`" if docs/design/ holds other files; delete this line if none of these}}
 
 ## Current state
 

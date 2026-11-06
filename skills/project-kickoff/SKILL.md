@@ -12,7 +12,8 @@ are in `references/project-types.md`.
 ## Hard rules
 
 - **Never overwrite.** Before writing any file, check that it does not exist. If it does, skip
-  it and report it at handoff.
+  it and report it at handoff. The one exception: front matter prepended to an existing design
+  doc, only when the user said yes to that diff in step 5 (see "Existing design docs" in step 6).
 - **Never invent.** Anything the user did not provide or answer is written as `Undecided` and
   gets a `Decide <topic>` task. The only exceptions: the name and goal of each phase, phase-1
   included, when the brief does not state them (proposed from the type's typical phases and
@@ -39,15 +40,31 @@ and never overwrites, then the first case that applies:
   project-kickoff; there is nothing to set up.
 - otherwise → the project already has documentation; use the project-adopt skill instead.
 
-If `docs/` exists but `docs/PROJECT.md` does not, stop and ask whether `docs/` belongs to
-something else and whether to continue. Continue only on an explicit yes.
+If `docs/` exists but `docs/PROJECT.md` does not:
+- every file under `docs/` is under `docs/design/` (ignore `.DS_Store` and `.gitkeep`) → the
+  project was designed first: continue with the design docs question below.
+- otherwise → stop and ask whether `docs/` belongs to something else and whether to continue.
+  Continue only on an explicit yes.
 
 Anything else (empty folder, `.git`, a short `README.md`, source files) → continue.
+
+**Design docs question.** The existing design docs are the files under `docs/design/`, plus
+`DESIGN.md` and the files under `design-ui/`. If any exist, list them and ask whether to use
+them as part of the brief (not counted in the 7-question budget of step 3). Yes → step 2
+reads them. No → they are not read; they are still
+never overwritten, and AGENTS.md still lists them (step 6 item 12).
 
 ### 2. Receive the brief
 
 Ask the user to give everything they have in one message: a description, notes, requirement
 files, links, chat excerpts. Read any files or links they point to.
+
+If the user chose to use the existing design docs (step 1), read each one in full — at most 20
+files and 2 000 lines in all; list any file beyond that as "not read" in the step-5 summary.
+From here on, **the brief includes what those docs state**: an item they answer is not asked,
+and a value they give is not `Undecided`. When a design doc and the user's message disagree,
+ask which is right (it counts toward the 7 questions). Alternatives a design doc rejects, with
+its reasons, go into D-0001 "Rejected".
 
 ### 3. Gap analysis
 
@@ -127,7 +144,12 @@ Show, in the user's language:
   marked `(proposed)`, and the features of each phase
 - the initial task list (number + title)
 - design docs: `docs/design/ARCHITECTURE.md` (Software), and the UI set `DESIGN.md` +
-  `design-ui/` with its `ui-design-system` feature (projects with a user interface)
+  `design-ui/` with its `ui-design-system` feature (projects with a user interface); existing
+  design docs are kept as they are and named as such
+- for each existing `docs/design/ARCHITECTURE.md` or `DESIGN.md` whose first line is not `---`:
+  the front matter diff of step 6 ("Existing design docs") as a unified diff, saying that only
+  these lines are added and the rest of the file is not changed. Ask for a separate yes or no
+  on each diff; a no keeps the file exactly as it is and does not block the rest
 - values derived from the brief without asking (so the user can correct them)
 - all `Undecided` items
 - pointer files and selected skills
@@ -167,14 +189,18 @@ Revise until the user explicitly confirms. Do not write any file before that.
      "The ui-design-system feature" below
    - no features at all → `docs/features/.gitkeep`
 5. Software only: `docs/design/ARCHITECTURE.md` ← `templates/docs/design/ARCHITECTURE.md`,
-   with `EMPTY` = `Not designed yet` (an optional field: no Decide task)
+   with `EMPTY` = `Not designed yet` (an optional field: no Decide task). If it already
+   exists, do not write it; see "Existing design docs" below
 6. Projects with a user interface only. If `DESIGN.md` already exists, skip this whole item
-   and the `ui-design-system` feature, and report it at handoff:
+   and the `ui-design-system` feature, and report it at handoff (and see "Existing design
+   docs" below):
    - `DESIGN.md` ← `templates/DESIGN.md` (`EMPTY` = `Not designed yet`)
    - `design-ui/README.md` ← `templates/design-ui/README.md`
    - `design-ui/tokens.css` ← `templates/design-ui/tokens.css` (verbatim)
    - `design-ui/proposals/.gitkeep`
-7. `docs/DECISIONS.md` ← `templates/docs/DECISIONS.md` (D-0001 records the kickoff decisions)
+7. `docs/DECISIONS.md` ← `templates/docs/DECISIONS.md` (D-0001 records the kickoff decisions;
+   when existing design docs were used, its Decision names them, e.g. "based on
+   `docs/design/ARCHITECTURE.md`")
 8. `docs/tasks/` ← `templates/skills/project-docs/templates/task.md`:
    - first, one `Decide <topic>` task per `Undecided` item (no cap; never merge them), each
      with `feature: none`, in this order: PROJECT.md items, then the type doc's areas in its
@@ -193,7 +219,8 @@ Revise until the user explicitly confirms. Do not write any file before that.
     placeholders; they are for later use.
 11. `.claude/skills/<name>/SKILL.md` for each selected skill ← `templates/skills/skill-skeleton.md`
 12. `AGENTS.md` ← `templates/AGENTS.md` (`TOOL_ROWS` per `references/stack-tools.md` §9;
-    `DESIGN_DOCS` lists the design docs written in items 5–6)
+    `DESIGN_DOCS` lists `docs/design/ARCHITECTURE.md` and `DESIGN.md` when they exist after
+    items 5–6, written now or already there, and the other files in `docs/design/`, if any)
 13. `CLAUDE.md` if Claude was selected, `GEMINI.md` if Gemini was selected — copy verbatim.
     Codex and Cursor read `AGENTS.md` directly and need no file.
 14. **Stack tool installs**, if any were approved — per `references/stack-tools.md` §6–§8.
@@ -216,9 +243,27 @@ from the brief):
   - `Fill DESIGN.md and tokens.css from the chosen proposal` (file topic
     `fill-design-md-tokens-css`)
 
+**Existing design docs** (`docs/design/ARCHITECTURE.md`, `DESIGN.md`)
+- Never rewrite, reformat or fill them from a template. Other files in `docs/design/` and
+  `design-ui/` are never changed; a `design-ui/` file that exists is skipped as usual.
+- A doc whose first line is not `---` gets the core-doc front matter only if the user said yes
+  to its diff in step 5. Prepend exactly these lines and change nothing else:
+
+  ```
+  ---
+  title: <the text of its first "# " heading; else "Architecture" or "Design">
+  status: draft
+  created: <the date its first commit added it: git log --diff-filter=A --format=%as -- <file> | tail -n 1; else DATE>
+  updated: DATE
+  ---
+
+  ```
+- A doc that already has front matter is left as it is.
+
 **Filling templates**
 - `{{NAME}}` → the value. `{{NAME: instruction}}` → follow the instruction and write the result.
-- **Content comes only from the brief and the answers.** Translate and reshape it, but add
+- **Content comes only from the brief and the answers** (the brief includes the existing design
+  docs the user chose to use). Translate and reshape it, but add
   nothing: no fields, roles, flows, numbers or qualifiers the brief does not give.
   "MVP: create a trip, add expenses, see who owes whom" → `Create a trip`, `Add expenses`,
   `See who owes whom` — not "Create a trip with named participants" or "Add expenses with
@@ -240,7 +285,9 @@ Example: `docs/tasks/task-0001-decide-hosting-provider-2026-10-24.md`.
 - Every `Undecided` in PROJECT.md, the type doc, phase-1 of ROADMAP.md and the phase-1
   features (their Impact excepted) has a matching `Decide …` task, and is listed under 'Open questions' in
   PROJECT.md.
-- Every value in the type doc and phase-1 is either in the brief, in an answer, or `Undecided`.
+- Every value in the type doc and phase-1 is either in the brief (existing design docs the
+  user chose to use included), in an answer, or `Undecided`.
+- Every existing design doc is unchanged, except for front matter prepended after a yes.
 - Re-read PROJECT.md (Summary, Goals, Scope) and every feature file against the brief:
   each specific detail (field, role, flow, number) appears in the brief or an answer. Remove
   any that do not.
@@ -254,6 +301,7 @@ Example: `docs/tasks/task-0001-decide-hosting-provider-2026-10-24.md`.
 
 Report:
 - files created, and files skipped with the reason
+- existing design docs: used or not, and for each front matter diff whether it was applied
 - `Undecided` items and their tasks
 - stack tools: installed / failed / referenced, with follow-ups (reload plugins, commands the
   user must run with their own key)

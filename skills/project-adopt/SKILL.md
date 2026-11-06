@@ -38,6 +38,10 @@ Stop and write nothing if:
   does not exist yet.
 - The target has no README, no source or config files, and no git commits. Recommend
   the project-kickoff skill.
+- The target has no source or config files, and every file in it other than `README.md` and
+  `.git/` is a design doc (under `docs/design/` or `design-ui/`, or `DESIGN.md`). It was
+  designed first and nothing is built yet: recommend the project-kickoff skill, which can read
+  those docs as part of its brief.
 
 In a git repo, run `git status --porcelain -- AGENTS.md CLAUDE.md GEMINI.md .gitignore`. If it
 prints anything, say those files have uncommitted changes and continue only on an explicit yes.
