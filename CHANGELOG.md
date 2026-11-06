@@ -17,6 +17,9 @@ Design-first projects. Generated files keep the same structure.
 - AGENTS.md lists the design docs that exist after kickoff, including ones it did not write and
   other notes in `docs/design/`.
 - project-adopt recommends project-kickoff for a folder that holds only design docs.
+- When `docs/` holds other files, project-kickoff asks two separate questions — whether `docs/`
+  belongs to something else, and whether to continue — instead of one combined question that
+  a bare "no" answered ambiguously. It stops unless the second answer is yes.
 
 ## 1.0.1 — 2026-10-29 (project structure 1)
 

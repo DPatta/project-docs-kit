@@ -43,14 +43,22 @@ and never overwrites, then the first case that applies:
 If `docs/` exists but `docs/PROJECT.md` does not:
 - every file under `docs/` is under `docs/design/` (ignore `.DS_Store` and `.gitkeep`) → the
   project was designed first: continue with the design docs question below.
-- otherwise → stop and ask whether `docs/` belongs to something else and whether to continue.
-  Continue only on an explicit yes.
+- otherwise → write nothing and ask two questions, one per message:
+  1. "Does `docs/` belong to something else, such as a documentation site or another tool?"
+     (yes / no / not sure)
+  2. "project-kickoff will add its files to `docs/` next to the files already there, and will
+     not change those files. Continue?" (yes / no). If the answer to question 1 was yes or not
+     sure, first say that kickoff's files may then be mixed into that tool's or site's content.
+
+  Continue only on an explicit yes to question 2. Otherwise stop, and say that nothing was
+  written. Neither question counts toward the 7-question budget of step 3.
 
 Anything else (empty folder, `.git`, a short `README.md`, source files) → continue.
 
 **Design docs question.** The existing design docs are the files under `docs/design/`, plus
 `DESIGN.md` and the files under `design-ui/`. If any exist, list them and ask whether to use
-them as part of the brief (not counted in the 7-question budget of step 3). Yes → step 2
+them as part of the brief (not counted in the 7-question budget of step 3). It is asked in
+every case that continues, including after a yes to the `docs/` questions above. Yes → step 2
 reads them. No → they are not read; they are still
 never overwritten, and AGENTS.md still lists them (step 6 item 12).
 
