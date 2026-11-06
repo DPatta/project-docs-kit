@@ -66,7 +66,10 @@ message already gives the brief, do not ask for it again.
 
 If existing design docs were found in step 1, decide whether to use them as part of the brief:
 - the brief points at them — names `docs/design/`, `DESIGN.md`, `design-ui/` or one of their
-  files, or says the design already exists in this folder → use them; do not ask
+  files, or says the design already exists in this folder → use them; do not ask. Before the
+  first question of step 3, tell the user in one line which files are used, e.g. "Using
+  `docs/design/ARCHITECTURE.md` and `docs/design/api-notes.md` as part of the brief." (not a
+  question; it costs nothing from the 7-question budget)
 - the brief says not to use them → do not use them; do not ask
 - otherwise → list them and ask whether to use them (not counted in the 7-question budget
   of step 3)
