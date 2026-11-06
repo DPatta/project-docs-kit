@@ -61,7 +61,8 @@ The plugin has no hooks, MCP servers or scripts; everything below is done by the
 following the skill text, with your approval where noted.
 
 - **Project files:** read the target folder (project-adopt scans code, manifests, docs and
-  `git log`), write the docs listed above after you confirm a summary, and run read-only git
+  `git log`; project-kickoff reads existing design docs when you use them as part of the
+  brief), write the docs listed above after you confirm a summary, and run read-only git
   commands such as `git status`.
 - **Stack tools (Claude Code only, optional):** to suggest skills, agents, plugins and MCP
   servers for your stack, the skills read the names and descriptions of what is installed
@@ -81,7 +82,9 @@ following the skill text, with your approval where noted.
 - commit without your yes
 - write tokens or secrets into files
 - install tools or plugins without asking
-- overwrite existing docs
+- overwrite existing docs — the one edit project-kickoff may make to an existing file is
+  adding front matter to an existing `docs/design/ARCHITECTURE.md` or `DESIGN.md`, shown as a
+  diff and only after you say yes; the rest of the file is not changed
 
 ## Updating
 

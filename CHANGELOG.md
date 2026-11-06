@@ -5,19 +5,22 @@ and the project structure version that `project-kickoff` writes to
 `.claude/skills/project-docs/KIT-VERSION` in a project, so a later release can tell which
 structure a project was made with.
 
-## 1.1.0 — unreleased (project structure 1)
+## 1.1.0 — 2026-11-07 (project structure 1)
 
 Design-first projects. Generated files keep the same structure.
 
 - project-kickoff accepts a folder whose `docs/` holds only `docs/design/`, and can use the
   existing design docs (`docs/design/`, `DESIGN.md`, `design-ui/`) as part of the brief: without
-  a question when the brief points at them, otherwise after asking. What they state is not
-  asked again and gets no Decide task; D-0001 names them.
+  a question when the brief points at them (it then says in one line which files it uses),
+  otherwise after asking. What they state is not asked again and gets no Decide task; D-0001
+  names them.
 - Existing design docs are never rewritten. `docs/design/ARCHITECTURE.md` or `DESIGN.md` without
   front matter gets a four-line front matter diff in the summary, applied only on a yes.
 - AGENTS.md lists the design docs that exist after kickoff, including ones it did not write and
   other notes in `docs/design/`.
 - project-adopt recommends project-kickoff for a folder that holds only design docs.
+- README: what the skills read now names existing design docs, and "never overwrite existing
+  docs" names the one approved front matter edit.
 - When `docs/` holds other files, project-kickoff asks two separate questions — whether `docs/`
   belongs to something else, and whether to continue — instead of one combined question that
   a bare "no" answered ambiguously. It stops unless the second answer is yes.
