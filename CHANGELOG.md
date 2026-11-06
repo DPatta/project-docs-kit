@@ -9,9 +9,10 @@ structure a project was made with.
 
 Design-first projects. Generated files keep the same structure.
 
-- project-kickoff accepts a folder whose `docs/` holds only `docs/design/`, and asks whether to
-  use the existing design docs (`docs/design/`, `DESIGN.md`, `design-ui/`) as part of the brief.
-  What they state is not asked again and gets no Decide task; D-0001 names them.
+- project-kickoff accepts a folder whose `docs/` holds only `docs/design/`, and can use the
+  existing design docs (`docs/design/`, `DESIGN.md`, `design-ui/`) as part of the brief: without
+  a question when the brief points at them, otherwise after asking. What they state is not
+  asked again and gets no Decide task; D-0001 names them.
 - Existing design docs are never rewritten. `docs/design/ARCHITECTURE.md` or `DESIGN.md` without
   front matter gets a four-line front matter diff in the summary, applied only on a yes.
 - AGENTS.md lists the design docs that exist after kickoff, including ones it did not write and

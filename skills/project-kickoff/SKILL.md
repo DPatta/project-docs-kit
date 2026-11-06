@@ -42,7 +42,7 @@ and never overwrites, then the first case that applies:
 
 If `docs/` exists but `docs/PROJECT.md` does not:
 - every file under `docs/` is under `docs/design/` (ignore `.DS_Store` and `.gitkeep`) → the
-  project was designed first: continue with the design docs question below.
+  project was designed first: continue; step 2 decides whether to use the design docs.
 - otherwise → write nothing and ask two questions, one per message:
   1. "Does `docs/` belong to something else, such as a documentation site or another tool?"
      (yes / no / not sure)
@@ -55,19 +55,26 @@ If `docs/` exists but `docs/PROJECT.md` does not:
 
 Anything else (empty folder, `.git`, a short `README.md`, source files) → continue.
 
-**Design docs question.** The existing design docs are the files under `docs/design/`, plus
-`DESIGN.md` and the files under `design-ui/`. If any exist, list them and ask whether to use
-them as part of the brief (not counted in the 7-question budget of step 3). It is asked in
-every case that continues, including after a yes to the `docs/` questions above. Yes → step 2
-reads them. No → they are not read; they are still
-never overwritten, and AGENTS.md still lists them (step 6 item 12).
+**Existing design docs** are the files under `docs/design/`, plus `DESIGN.md` and the files
+under `design-ui/`. Note which exist; step 2 decides whether to use them.
 
 ### 2. Receive the brief
 
 Ask the user to give everything they have in one message: a description, notes, requirement
-files, links, chat excerpts. Read any files or links they point to.
+files, links, chat excerpts. Read any files or links they point to. If the user's first
+message already gives the brief, do not ask for it again.
 
-If the user chose to use the existing design docs (step 1), read each one in full — at most 20
+If existing design docs were found in step 1, decide whether to use them as part of the brief:
+- the brief points at them — names `docs/design/`, `DESIGN.md`, `design-ui/` or one of their
+  files, or says the design already exists in this folder → use them; do not ask
+- the brief says not to use them → do not use them; do not ask
+- otherwise → list them and ask whether to use them (not counted in the 7-question budget
+  of step 3)
+
+Not used → they are not read; they are still never overwritten, and AGENTS.md still lists
+them (step 6 item 12). The step-5 summary says which design docs are used.
+
+When the design docs are used, read each one in full — at most 20
 files and 2 000 lines in all; list any file beyond that as "not read" in the step-5 summary.
 From here on, **the brief includes what those docs state**: an item they answer is not asked,
 and a value they give is not `Undecided`. When a design doc and the user's message disagree,
@@ -271,7 +278,7 @@ from the brief):
 **Filling templates**
 - `{{NAME}}` → the value. `{{NAME: instruction}}` → follow the instruction and write the result.
 - **Content comes only from the brief and the answers** (the brief includes the existing design
-  docs the user chose to use). Translate and reshape it, but add
+  docs used in step 2). Translate and reshape it, but add
   nothing: no fields, roles, flows, numbers or qualifiers the brief does not give.
   "MVP: create a trip, add expenses, see who owes whom" → `Create a trip`, `Add expenses`,
   `See who owes whom` — not "Create a trip with named participants" or "Add expenses with
@@ -293,8 +300,8 @@ Example: `docs/tasks/task-0001-decide-hosting-provider-2026-10-24.md`.
 - Every `Undecided` in PROJECT.md, the type doc, phase-1 of ROADMAP.md and the phase-1
   features (their Impact excepted) has a matching `Decide …` task, and is listed under 'Open questions' in
   PROJECT.md.
-- Every value in the type doc and phase-1 is either in the brief (existing design docs the
-  user chose to use included), in an answer, or `Undecided`.
+- Every value in the type doc and phase-1 is either in the brief (existing design docs used
+  in step 2 included), in an answer, or `Undecided`.
 - Every existing design doc is unchanged, except for front matter prepended after a yes.
 - Re-read PROJECT.md (Summary, Goals, Scope) and every feature file against the brief:
   each specific detail (field, role, flow, number) appears in the brief or an answer. Remove
