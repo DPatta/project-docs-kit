@@ -5,7 +5,7 @@ and the project structure version that `project-kickoff` writes to
 `.claude/skills/project-docs/KIT-VERSION` in a project, so a later release can tell which
 structure a project was made with.
 
-## unreleased (project structure 2)
+## 2.0.0 — 2026-11-08 (project structure 2)
 
 A new project structure, and upgrade mode to reach it. Projects made with structure 1 keep
 working; run `project-kickoff` in one to upgrade it.
