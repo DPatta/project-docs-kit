@@ -63,13 +63,17 @@ following the skill text, with your approval where noted.
 - **Project files:** read the target folder (project-adopt scans code, manifests, docs and
   `git log`; project-kickoff reads existing design docs when you use them as part of the
   brief), write the docs listed above after you confirm a summary, and run read-only git
-  commands such as `git status`.
+  commands such as `git status` and `git check-ignore` (at the end, to tell you which new
+  files a `.gitignore` would keep out of a commit).
 - **Stack tools (Claude Code only, optional):** to suggest skills, agents, plugins and MCP
-  servers for your stack, the skills read the names and descriptions of what is installed
-  (`~/.claude/skills`, `~/.claude/agents`, installed plugins, configured marketplaces, and
-  MCP server names from `claude mcp list` — never their env values or headers). If nothing
-  installed matches, they may run a web search limited to the vendor's or Anthropic's GitHub
-  organisations and read the matching repositories.
+  servers for your stack, and installed skills for the kinds of work the project does
+  (testing, API security, database, user interface), the skills read the names and
+  descriptions of what is installed (`~/.claude/skills`, `~/.claude/agents`, installed
+  plugins, configured marketplaces, and MCP server names from `claude mcp list` — never their
+  env values or headers). To leave out tools you turned off, they read only the
+  `skillOverrides` and `enabledPlugins` keys of your Claude Code settings files, nothing else
+  in them. If nothing installed matches your stack, they may run a web search limited to the
+  vendor's or Anthropic's GitHub organisations and read the matching repositories.
 - **Installs, only for the tools you choose and only after you approve the exact command:**
   `claude plugin install <name>@<marketplace>`, a vendor's documented `claude mcp add --scope
   user …` without any secret, or copying a skill or agent you reviewed from such a repository

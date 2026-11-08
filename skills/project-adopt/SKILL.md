@@ -91,8 +91,9 @@ One per message:
    picks any number, including none.
 5. **Stack tools:** per `references/stack-tools.md` — only when Claude was selected and at
    least one stack finding is `clear` after applying the step-3 answers. Up to 6 installed or installable skills, agents,
-   plugins and MCP servers matching those findings; the user picks reference, install or skip
-   for each.
+   plugins and MCP servers matching those findings, plus up to 4 installed skills or agents for
+   the project's work areas (testing, API security, database, user interface); turned-off
+   tools are left out. The user picks reference, install or skip for each.
 
 `project-docs` is installed automatically whenever a task store, `docs/features/`, `docs/issues/`, `docs/reports/` or `docs/DECISIONS.md` is created, or the project has its own task or spec folder.
 
@@ -202,4 +203,10 @@ Report:
   4. for any new feature, follow `.claude/skills/project-docs/adding-a-feature.md` when
      project-docs was installed
 
-If the target is a git repository, ask whether to commit. Never commit without a yes.
+If the target is a git repository, run `git check-ignore -v -- <every file you wrote or
+edited>` first. If it prints anything, list each ignored file with the rule and the file that
+holds the rule, and say that these files stay out of every commit unless they are added with
+`git add -f`. Leave out files under a folder this run added to `.gitignore` (such as
+`.agents/`), which are ignored on purpose. Never edit any `.gitignore` beyond that. Then ask
+whether to commit; on a yes, when some listed files are ignored, ask separately whether to add
+them with `git add -f`. Never commit without a yes.

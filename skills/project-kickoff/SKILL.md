@@ -150,8 +150,10 @@ Ask these questions, one per message, even when the gap budget is used up:
    `project-docs` is always installed and is not part of the suggestion.
 3. **Stack tools:** per `references/stack-tools.md` — only for Software projects where Claude
    was selected and at least one STACK.md value comes from the brief or an answer. Up to 6
-   installed or installable skills, agents, plugins and MCP servers matching those values;
-   the user picks reference, install or skip for each.
+   installed or installable skills, agents, plugins and MCP servers matching those values, plus
+   up to 4 installed skills or agents for the project's work areas (testing, API security,
+   database, user interface); turned-off tools are left out. The user picks reference, install
+   or skip for each.
 
 ### 5. Summary for approval
 
@@ -327,5 +329,10 @@ Report:
   `status: approved`, and check that the features match what you want; (2) fill in the draft skill skeletons; (3) start with `task-0001`;
   (4) for any new feature, follow `.claude/skills/project-docs/adding-a-feature.md`
 
-If the target is a git repository (`git rev-parse --is-inside-work-tree` succeeds), ask whether
-to commit. Never commit without a yes.
+If the target is a git repository (`git rev-parse --is-inside-work-tree` succeeds), run `git check-ignore -v -- <every file you wrote or
+edited>` first. If it prints anything, list each ignored file with the rule and the file that
+holds the rule, and say that these files stay out of every commit unless they are added with
+`git add -f`. Leave out files under a folder this run added to `.gitignore` (such as
+`.agents/`), which are ignored on purpose. Never edit any `.gitignore` beyond that. Then ask
+whether to commit; on a yes, when some listed files are ignored, ask separately whether to add
+them with `git add -f`. Never commit without a yes.

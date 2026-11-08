@@ -1,8 +1,8 @@
 # Stack Tools
 
 Shared by project-kickoff and project-adopt; the two copies are byte-identical. Suggests
-Claude Code skills, agents, plugins and MCP servers that match the project's known stack, and
-installs the ones the user picks.
+Claude Code skills, agents, plugins and MCP servers that match the project's known stack and
+the kinds of work it will do, and installs the ones the user picks.
 
 ## 1. When to run
 
@@ -23,6 +23,18 @@ A stack item is one technology the project states, e.g. `Next.js`, `Supabase`, `
 Never expand an item into related technologies: `Next.js` does not add `React` or
 `TypeScript`, and `Supabase` does not add `PostgreSQL`.
 
+## 2a. Work areas
+
+A work area is a kind of work the project will do, whatever the technology. Use only these,
+and only when the evidence holds:
+
+| Work area | Applies when | Search words |
+|---|---|---|
+| Testing | always (§1 already requires a stack item) | `test`, `testing`, `tdd` |
+| API security | the project serves an API or server routes: a stack item is a server or full-stack framework, or the brief, an answer or the scan names an API, a backend or a server | `security`, `auth`, `authentication` |
+| Database | a stack item is a database, an ORM or a data service | `database`, `sql`, `orm` |
+| User interface | the project has a user interface: project-kickoff writes `DESIGN.md`, or project-adopt finds UI code or `DESIGN.md` | `ui`, `ux`, `accessibility`, `a11y` |
+
 ## 3. Search
 
 Tools come in two groups, decided by the tool's own kind, not by where it comes from:
@@ -33,7 +45,9 @@ Tools come in two groups, decided by the tool's own kind, not by where it comes 
 
 Search each stack item once per group, tier by tier, and keep every match (§4) as a
 candidate. For each item and group, stop at the first tier that yields a **name match**; with
-no match or only description matches, go on to the next tier. An installed knowledge skill
+no match or only description matches, go on to the next tier. Work areas (§2a) are searched
+in tier 1 only, for knowledge tools only: a tool the user has not installed is never
+suggested for a work area. An installed knowledge skill
 therefore never hides the vendor's integration plugin, and vice versa. Then rank all
 candidates together (§4).
 
@@ -45,6 +59,21 @@ candidates together (§4).
 - Installed plugins: each key `<plugin>@<marketplace>` in
   `~/.claude/plugins/installed_plugins.json` → its `installPath` → `skills/*/SKILL.md` and
   `agents/*.md` under it. Name these `<plugin>:<name>`.
+- Turned-off tools are not candidates. Read only the keys `skillOverrides` and
+  `enabledPlugins` of `~/.claude/settings.json`, then of the project's `.claude/settings.json`
+  and `.claude/settings.local.json` when they exist (a later file wins for the same key). Read
+  them only with a command that parses the JSON and prints just those two keys (for example a
+  one-line `python3` or `node` script); never open a whole settings file, and never print or
+  copy any other key, because these files can hold secrets. A skill is turned off when its
+  `skillOverrides` value is `"off"` (key `<name>`, or `<plugin>:<name>` for a plugin's skill).
+  Every skill, agent and MCP server of a plugin is turned off when its `enabledPlugins` value is
+  `false`. Rank them with the others in §4 step 1; a turned-off tool among the first 2 of its
+  item is removed, its place goes to the next tool of the same item that is on, and its name
+  is kept for the question (§5). A turned-off tool is never the name match that stops the
+  tier search.
+- A tool made for one particular project, company or team workflow is never a candidate: its
+  description names that project or team, or says another skill dispatches it (for example
+  "Dispatched only by …").
 
 **Tier 2 — configured marketplaces**
 - `~/.claude/plugins/marketplaces/<marketplace>/.claude-plugin/marketplace.json` —
@@ -62,24 +91,36 @@ candidates together (§4).
 ## 4. Matching
 
 - A tool matches an item when the item's name appears in the tool's name or description,
-  case-insensitive (`Next.js` also matches `nextjs` and `next-js`; a part of the name such as
-  `next` does not, so `next-devtools` is no match), **and** the tool is about
+  case-insensitive (`Next.js` also matches `nextjs` and `next-js`, and a common short name
+  counts as the name: `Postgres` for `PostgreSQL`; a part of the name such as `next` does not,
+  so `next-devtools` is no match), **and** the tool is about
   that technology as the project uses it. Another product of the same vendor is not a match:
   a Vercel AI SDK skill does not match `Vercel` used as hosting.
 - Choose in this order:
-  1. Per item and group, sort candidates by: name match before description-only match; then
-     installed before installable; then alphabetical by name, ignoring a `<plugin>:` prefix
-     (`ecc:nextjs-turbopack` sorts as `nextjs-turbopack`). Keep the first **2**.
+  1. Per item (stack item or work area) and group, sort candidates by: name match before
+     description-only match; then installed before installable; then alphabetical by name,
+     ignoring a `<plugin>:` prefix (`ecc:nextjs-turbopack` sorts as `nextjs-turbopack`). Keep
+     the first **2**.
   2. A tool kept for several items counts once, under the item where it ranks highest.
   3. Per group, merge the kept tools of all items and sort them the same way (name match
      first — an installable name match outranks an installed description-only match). Keep
-     at most **4 knowledge** and **2 integration** tools (6 in total).
+     at most **4 knowledge** and **2 integration** tools for stack items, plus at most **4
+     knowledge** tools for work areas (10 in total). A tool kept for a stack item is not
+     counted again for a work area.
+- Work areas: a tool matches when a search word of the area (§2a) is a whole word of its name
+  (split on `-`, `_` and `:`; a description alone never matches), its description shows that
+  kind of work is its main subject (`database-cloud-optimization` is about cloud cost, not
+  databases), **and**, when its name or description names technologies, at least one of them
+  is a stack item. A testing skill that names only
+  pytest does not match a Node.js project, and a React UI skill does not match a project whose
+  stack has no React (§2).
 - Zero is fine — never pad with loosely related tools.
 - Example (Next.js + Supabase + Vercel): knowledge `nextjs-app-router-patterns`,
   `nextjs-best-practices` (Next.js), `nextjs-supabase-auth` (Supabase), `vercel-deployment`
   (Vercel); integration `supabase` and `vercel` plugins. A third Next.js skill is cut by
   the 2-per-item limit, and a database agent that only mentions Supabase in its description
-  is cut by the 4-knowledge limit.
+  is cut by the 4-knowledge limit. The work areas can then add an installed, technology-neutral
+  `api-security-best-practices` (API security).
 - Kind is exactly one of `skill`, `agent`, `plugin`, `plugin + MCP` (a plugin whose
   description mentions MCP) or `MCP`.
 
@@ -88,7 +129,10 @@ candidates together (§4).
 A setup choice, asked after the other setup questions; it does not count toward the question
 budget. Show one line per suggestion:
 
-`<n>. <name> — <kind> — <source> — <installed | installable> — <reason naming the item>`
+`<n>. <name> — <kind> — <source> — <installed | installable> — <reason naming the item or work area>`
+
+When §3 kept turned-off names, add one line after the list: `Installed but turned off, not
+suggested: <names>` — the user can turn one on and run again.
 
 One answer per tool: **reference**, **install** (only for `installable`) or **skip**. The
 user may answer several tools in one message; "None" skips all. Choosing **install** for an
@@ -136,7 +180,7 @@ key: …".
 
 `{{TOOL_ROWS}}`: one row per tool the user chose (reference or install):
 
-`| <name> | <kind> | <use when — from the tool's own description, naming the stack item> | <source / install> |`
+`| <name> | <kind> | <use when — from the tool's own description, naming the stack item or work area> | <source / install> |`
 
 "Use when" adds nothing the description does not say (do not name a tool or version the
 description does not mention).

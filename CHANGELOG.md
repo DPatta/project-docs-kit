@@ -5,6 +5,20 @@ and the project structure version that `project-kickoff` writes to
 `.claude/skills/project-docs/KIT-VERSION` in a project, so a later release can tell which
 structure a project was made with.
 
+## 1.2.0 — 2026-11-08 (project structure 1)
+
+Better stack tool suggestions and a commit check. Generated files keep the same structure.
+
+- Stack tools leave out skills and plugins you turned off in Claude Code (`skillOverrides`
+  `"off"`, `enabledPlugins` `false`), and name them in one line under the question. Only those
+  two keys of the settings files are read.
+- Stack tools also suggest up to 4 installed skills or agents for the kinds of work the project
+  does — testing, API security, database, user interface — when they name no technology the
+  project does not use. These are never searched outside what is installed.
+- At handoff, project-kickoff and project-adopt run `git check-ignore` on the files they wrote
+  and list any that a `.gitignore` keeps out of a commit (for example a global ignore of
+  `.claude/`), then ask separately whether to add them with `git add -f`.
+
 ## 1.1.0 — 2026-11-07 (project structure 1)
 
 Design-first projects. Generated files keep the same structure.
