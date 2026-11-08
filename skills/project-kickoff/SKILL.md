@@ -1,13 +1,13 @@
 ---
 name: project-kickoff
-description: Use when starting a brand-new project of any type (software, research, content/writing, personal) and the user wants it set up so any AI can pick it up — project brief, roadmap and phases, stack/methods/style/resources doc, task/issue/report files with status, AGENTS.md (plus CLAUDE.md / GEMINI.md pointers) and project skills. Do NOT use on other projects that already have AGENTS.md, CLAUDE.md or docs/PROJECT.md (use project-adopt).
+description: Use when starting a brand-new project of any type (software, research, content/writing, personal) and the user wants it set up so any AI can pick it up — project brief, roadmap and phases, stack/methods/style/resources doc, task/issue/report files with status, AGENTS.md (plus CLAUDE.md / GEMINI.md pointers) and project skills. Also upgrades a project that an older project-kickoff set up to the current project structure. Do NOT use on other projects that already have AGENTS.md, CLAUDE.md or docs/PROJECT.md (use project-adopt).
 ---
 
 # Project Kickoff
 
 Sets up a new project with a documentation set that lets any AI agent understand the project
 from `AGENTS.md` alone. Templates are in `templates/` next to this file; per-type differences
-are in `references/project-types.md`.
+are in `references/project-types.md`. Upgrade mode (step 1) follows `references/upgrade.md`.
 
 ## Hard rules
 
@@ -31,14 +31,19 @@ are in `references/project-types.md`.
 
 Target directory = the current working directory, unless the user names another one.
 
-Stop immediately and write nothing if any of these exist in the target: `AGENTS.md`,
-`CLAUDE.md`, `docs/PROJECT.md`. Tell the user that project-kickoff only sets up new projects
-and never overwrites, then the first case that applies:
-- `AGENTS.md` contains `managed-by: project-adopt` → it was already set up by project-adopt,
-  which has no refresh mode yet.
-- the target has `.claude/skills/project-docs/SKILL.md` → it was already set up by
-  project-kickoff; there is nothing to set up.
-- otherwise → the project already has documentation; use the project-adopt skill instead.
+If any of these exist in the target: `AGENTS.md`, `CLAUDE.md`, `docs/PROJECT.md`, take the
+first case that applies:
+- `AGENTS.md` contains `managed-by: project-adopt` → stop and write nothing: it was set up by
+  project-adopt, which has no refresh mode yet.
+- the target has `AGENTS.md`, `docs/PROJECT.md` and `.claude/skills/project-docs/SKILL.md` → it
+  was set up by project-kickoff. Its structure is the number in
+  `.claude/skills/project-docs/KIT-VERSION` (1 when the file is missing). Lower than the one in
+  `templates/skills/project-docs/KIT-VERSION` → **upgrade mode**: tell the user, then follow
+  `references/upgrade.md` instead of the hard rules above and steps 2–7. The same → say it is
+  up to date and write nothing.
+- otherwise → stop and write nothing. Tell the user that project-kickoff only sets up new
+  projects and never overwrites; the project already has documentation, so use the
+  project-adopt skill instead.
 
 If `docs/` exists but `docs/PROJECT.md` does not:
 - every file under `docs/` is under `docs/design/` (ignore `.DS_Store` and `.gitkeep`) → the
@@ -218,9 +223,10 @@ Revise until the user explicitly confirms. Do not write any file before that.
    - `design-ui/README.md` ← `templates/design-ui/README.md`
    - `design-ui/tokens.css` ← `templates/design-ui/tokens.css` (verbatim)
    - `design-ui/proposals/.gitkeep`
-7. `docs/DECISIONS.md` ← `templates/docs/DECISIONS.md` (D-0001 records the kickoff decisions;
-   when existing design docs were used, its Decision names them, e.g. "based on
-   `docs/design/ARCHITECTURE.md`")
+7. `docs/DECISIONS.md` ← `templates/docs/DECISIONS.md` (the decision index) and
+   `docs/decisions/D-0001-project-kickoff.md` ← `templates/docs/decisions/D-0001-project-kickoff.md`
+   (D-0001 records the kickoff decisions; when existing design docs were used, its Decision
+   names them, e.g. "based on `docs/design/ARCHITECTURE.md`")
 8. `docs/tasks/` ← `templates/skills/project-docs/templates/task.md`:
    - first, one `Decide <topic>` task per `Undecided` item (no cap; never merge them), each
      with `feature: none`, in this order: PROJECT.md items, then the type doc's areas in its
@@ -230,14 +236,15 @@ Revise until the user explicitly confirms. Do not write any file before that.
      When the brief's phase-1 features are `Undecided`, only `ui-design-system` (if any)
      gets tasks — the `Decide phase-1 features` task covers the rest.
    - numbered from `0001`, all `status: todo`, `ticket: none`
-   - acceptance criteria may say "add an entry to docs/DECISIONS.md" but never pre-assign a
+   - acceptance criteria may say "add a decision (docs/decisions/)" but never pre-assign a
      `D-NNNN` id
    - a `Decide …` task about a stack area also gets the criterion in `references/stack-tools.md` §10
 9. `docs/issues/.gitkeep` and `docs/reports/.gitkeep` (empty files)
 10. `.claude/skills/project-docs/` ← copy `templates/skills/project-docs/` **verbatim**
-    (`SKILL.md`, `adding-a-feature.md`, `KIT-VERSION` and `templates/`). Do not fill its
+    (`SKILL.md`, `adding-a-feature.md`, `finding-tools.md`, `KIT-VERSION` and `templates/`). Do not fill its
     placeholders; they are for later use.
 11. `.claude/skills/<name>/SKILL.md` for each selected skill ← `templates/skills/skill-skeleton.md`
+    (`RELATED_TOOLS` per `references/stack-tools.md` §9)
 12. `AGENTS.md` ← `templates/AGENTS.md` (`TOOL_ROWS` per `references/stack-tools.md` §9;
     `DESIGN_DOCS` lists `docs/design/ARCHITECTURE.md` and `DESIGN.md` when they exist after
     items 5–6, written now or already there, and the other files in `docs/design/`, if any)
@@ -256,7 +263,7 @@ from the brief):
   - `- [ ] 2–4 proposals in design-ui/proposals/, plus design-ui/proposals/index.html to compare them`
   - `- [ ] The human picks one; the others are marked superseded`
   - `- [ ] DESIGN.md and design-ui/tokens.css are filled from the chosen proposal`
-  - `- [ ] The choice is recorded in docs/DECISIONS.md`
+  - `- [ ] The choice is recorded as a decision (docs/decisions/)`
 - Impact: UI `needs mockup`, Architecture `none`
 - Its tasks (counted in the 2–6):
   - `Create UI design proposals` (file topic `create-ui-design-proposals`)

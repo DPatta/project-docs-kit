@@ -35,7 +35,8 @@ Stop and write nothing if:
 - `AGENTS.md` contains `managed-by: project-adopt`, or the target has all of `AGENTS.md`,
   `docs/PROJECT.md` and `.claude/skills/project-docs/SKILL.md` (set up by project-kickoff).
   Say the project is already set up. For one set up by project-adopt, say that a refresh mode
-  does not exist yet.
+  does not exist yet. For one set up by project-kickoff, say that the project-kickoff skill
+  upgrades it when its structure is older than the kit's.
 - The target has no README, no source or config files, and no git commits. Recommend
   the project-kickoff skill.
 - The target has no source or config files, and every file in it other than `README.md` and
@@ -80,7 +81,7 @@ One per message:
 
    Skip this question if the project already has its own task folder; its convention is used.
 3. **Gap fills** (multi-select). Offer only items with no equivalent, per
-   `references/scan-checklist.md` §3: `docs/DECISIONS.md` (no decision records), `docs/reports/`
+   `references/scan-checklist.md` §3: `docs/DECISIONS.md` + `docs/decisions/` (no decision records), `docs/reports/`
    (no reports folder), `docs/PROJECT.md` (the README does not say what the project does),
    `docs/ROADMAP.md` (no roadmap), `docs/issues/` (no tracker), `docs/features/` (no spec
    folder; only with a task store, since features are built through tasks), `docs/design/ARCHITECTURE.md` (no architecture doc), and `DESIGN.md` +
@@ -121,7 +122,8 @@ Write in this order:
 2. **Gap-fill docs** from `templates/docs/`:
    - `PROJECT.md`
    - `ROADMAP.md`, with phase-1 `active`
-   - `DECISIONS.md`, with D-0001 recording this adoption
+   - `DECISIONS.md` (the decision index) and `docs/decisions/D-0001-adopted-ai-readable-project.md`
+     recording this adoption
    - `docs/issues/.gitkeep` and `docs/reports/.gitkeep`, when selected
    - `docs/features/.gitkeep`, when selected
    - `docs/design/ARCHITECTURE.md` ← `templates/docs/design/ARCHITECTURE.md`, filled from
@@ -135,9 +137,11 @@ Write in this order:
    - a task about a stack `Unknown` also gets the criterion in `references/stack-tools.md` §10
    - when `DESIGN.md` was created, one more task: `Document the existing UI design in DESIGN.md` (`feature: none`), whose criteria fill each section from the code and ask the human whether the current look is the approved one
 4. **`.claude/skills/project-docs/`**, when needed (step 4):
-   - Copy `templates/skills/project-docs/` including `adding-a-feature.md` and fill only the named placeholders in `SKILL.md`:
+   - Copy `templates/skills/project-docs/` including `adding-a-feature.md` and `finding-tools.md`, and fill only the named placeholders in `SKILL.md`:
      `{{TASKS_DIR}}`, `{{DECISIONS_PATH}}`, `{{OTHER_LOCATIONS: …}}`, `{{TRACKER_RULES: …}}`,
      `{{PROJECT_CONVENTIONS: …}}`, `{{FEATURES_DIR}}`.
+   - `DECISIONS_PATH` = the existing ADR folder or decision log, or `docs/decisions/` when this
+     adoption created the decision log.
    - `FEATURES_DIR` = the repo's own spec folder (scan-checklist §3), else `docs/features/` if created — written in backticks — else the plain words `not used`.
    - Leave the prose `{{...}}` and the `templates/` folder untouched.
    - If the project has its own task convention, rewrite "File naming" and "Next number" to
@@ -147,7 +151,7 @@ Write in this order:
      of "Required frontmatter" and the **Feature** status block with "Features follow the
      existing format in `<folder>`; ask the human before changing a spec's status".
 5. **Project skill skeletons** from `templates/skills/skill-skeleton.md`, into
-   `.claude/skills/<name>/SKILL.md`.
+   `.claude/skills/<name>/SKILL.md` (`RELATED_TOOLS` per `references/stack-tools.md` §9).
 6. **`AGENTS.md`:**
    - missing → create it from `templates/AGENTS.md`
    - exists → append, in this order:

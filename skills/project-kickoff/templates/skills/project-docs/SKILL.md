@@ -105,11 +105,20 @@ Change status only along these arrows. On every change: set `updated:` to today 
 
 A report covers the period since the previous report (or since kickoff). Collect: features and tasks moved
 to `done`, tasks in progress, issues opened and resolved, decisions added to
-`docs/DECISIONS.md`, and next steps. Set `period: <start> to <end>`.
+`docs/decisions/` (rows in `docs/DECISIONS.md`), and next steps. Set `period: <start> to <end>`.
 
 ## Decisions
 
-Whenever you choose between real alternatives, append a `D-NNNN` entry to `docs/DECISIONS.md`
-(next id = highest + 1, assigned at the moment you write the entry). Never pre-assign a
-`D-NNNN` id in a task or elsewhere — write "add an entry to docs/DECISIONS.md" instead. Never
-edit old entries — supersede them with a new entry that names the old id.
+Whenever you choose between real alternatives, create `docs/decisions/D-NNNN-<slug>.md` from
+`templates/decision.md` and add its row to the index table in `docs/DECISIONS.md`.
+- `<slug>`: the first 1–6 words of the title, by the `<kebab-topic>` character rule above.
+- Next id = highest `D-NNNN` in the index + 1, assigned at the moment you write the file. Never
+  pre-assign a `D-NNNN` id in a task or elsewhere — write "add a decision (docs/decisions/)"
+  instead.
+- Never rewrite an old entry. A change is a new entry that lists the old id in `supersedes`;
+  then add the new id to the old file's `superseded-by` (the only edit allowed in an old file)
+  and update the old row's status in the index.
+- A decision that adds a dependency or changes the stack also checks for matching Claude Code
+  tools, following `finding-tools.md` next to this file, and adds the rows the user picks to
+  `AGENTS.md` → Recommended tools, and to the `## Related tools` section of each project skill
+  they apply to, in the same change.

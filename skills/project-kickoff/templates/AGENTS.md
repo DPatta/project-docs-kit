@@ -11,7 +11,7 @@ Full detail: [docs/PROJECT.md](docs/PROJECT.md)
 3. `docs/features/` — the features of the active phase (`grep -l "phase: <id>" docs/features/*.md`); `approved` and `in-progress` ones are the current scope
 4. `docs/tasks/` — tasks with `status: in-progress` first, then `status: todo` (lowest number first)
 5. `docs/issues/` — issues with `status: open` or `investigating` may block tasks
-6. `docs/DECISIONS.md` — check before proposing an alternative to something already decided
+6. `docs/DECISIONS.md` — the decision index; read it, then open only the decision files in `docs/decisions/` that touch the work, before proposing an alternative to something already decided
 7. `docs/{{TYPE_DOC: STACK.md, METHODS.md, STYLE.md or RESOURCES.md}}` — {{TYPE_DOC_PURPOSE: purpose line from references/project-types.md}}
 {{DESIGN_DOCS: "8. `docs/design/ARCHITECTURE.md` — how the system fits together" if it exists; then "<next number>. `DESIGN.md` — the UI look and feel; build screens only from its approved mockups" if it exists; then "<next number>. `docs/design/` — other design notes: `<file>`, `<file>`" if docs/design/ holds other files; delete this line if none of these}}
 
@@ -32,7 +32,12 @@ grep -l "status: open" docs/issues/*.md         # open issues
 - All project documents are written in English.
 - Creating or editing anything in `docs/` → follow `.claude/skills/project-docs/SKILL.md`.
 - A request for a new feature or more scope → follow `.claude/skills/project-docs/adding-a-feature.md`.
-- Record every significant choice, and what was rejected, in `docs/DECISIONS.md`.
+- Before a task, load every row of "Project skills" and every row of "Recommended tools" whose
+  kind includes `skill` or `plugin` and whose "Use when" matches the work. A project skill that
+  your tool cannot load as a skill is plain markdown: open the file and follow it. A
+  recommended tool that is not available is not installed or is turned off for this user: skip
+  it and say so in your report.
+- Record every significant choice, and what was rejected, as a new file in `docs/decisions/` with a row in the index `docs/DECISIONS.md`.
 - Never edit a document with `status: approved` without asking the human first.
 - Work may start while core docs are `draft`; only the human (project owner) sets `approved`.
 - Values marked `Undecided` are open questions — ask the human; do not assume.
@@ -49,7 +54,7 @@ Skills are plain markdown. Agents without native skill support should open the f
 
 ## Recommended tools (Claude Code)
 
-Optional, installed per user — not part of this repo. Other agents can ignore this section.
+Installed per user — not part of this repo. Tools that are not installed are skipped (see Working rules).
 
 | Tool | Kind | Use when | Source / install |
 |---|---|---|---|

@@ -4,7 +4,8 @@ Two agent skills that give a project a documentation set any AI agent can pick u
 `AGENTS.md` alone — Claude Code, Codex, Gemini CLI, Cursor or the next one.
 
 - **project-kickoff** — for a new, empty project. Asks a few questions, then writes the brief,
-  roadmap, features, decisions, a task store and `AGENTS.md`.
+  roadmap, features, decisions, a task store and `AGENTS.md`. Run it again in a project it set
+  up with an older release, and it upgrades that project to the current structure.
 - **project-adopt** — for an existing repo. Scans the code, writes an evidence-backed
   `AGENTS.md`, links it from your existing `CLAUDE.md` / `GEMINI.md`, and can add the same task
   store following the project's own conventions.
@@ -44,7 +45,8 @@ CLAUDE.md, GEMINI.md           one-line pointers to AGENTS.md (for the agents yo
 docs/
   PROJECT.md                   brief: goal, users, scope
   ROADMAP.md                   phases and the features in each
-  DECISIONS.md                 decision log
+  DECISIONS.md                 decision index
+  decisions/                   one file per decision
   STACK.md                     stack and conventions
   features/                    one file per feature
   design/ARCHITECTURE.md
@@ -57,8 +59,11 @@ DESIGN.md, design-ui/          look and feel (projects with a UI)
 
 ## What the skills read, run and fetch
 
-The plugin has no hooks, MCP servers or scripts; everything below is done by the agent
-following the skill text, with your approval where noted.
+The plugin has no hooks or MCP servers. It has one script,
+`skills/project-kickoff/scripts/check-decisions.sh`, a read-only check that upgrade mode runs
+on the split decision log (bash; on Windows the agent runs the same checks by reading the
+files). Everything below is done by the agent following the skill text, with your approval
+where noted.
 
 - **Project files:** read the target folder (project-adopt scans code, manifests, docs and
   `git log`; project-kickoff reads existing design docs when you use them as part of the
@@ -86,15 +91,21 @@ following the skill text, with your approval where noted.
 - commit without your yes
 - write tokens or secrets into files
 - install tools or plugins without asking
-- overwrite existing docs — the one edit project-kickoff may make to an existing file is
-  adding front matter to an existing `docs/design/ARCHITECTURE.md` or `DESIGN.md`, shown as a
-  diff and only after you say yes; the rest of the file is not changed
+- overwrite existing docs — the one edit project-kickoff may make to an existing file in a
+  new project is adding front matter to an existing `docs/design/ARCHITECTURE.md` or
+  `DESIGN.md`, shown as a diff and only after you say yes; the rest of the file is not changed.
+  Upgrade mode changes only the lines its checklist names, after you confirm its plan, and
+  keeps your own edits to `.claude/skills/project-docs/` (merged, shown as a diff)
 
 ## Updating
 
 Claude Code plugin: `claude plugin marketplace update project-docs-kit`, then
 `claude plugin update project-docs-kit@project-docs-kit`, then restart Claude Code.
 Skills CLI: `npx skills update`.
+
+Projects set up by an older `project-kickoff` keep working. To bring one up to the current
+structure (for example, project structure 2 splits the decision log into one file per decision), run
+`project-kickoff` in it: it shows a plan, waits for your yes, and changes nothing else.
 
 See [CHANGELOG.md](CHANGELOG.md) for what each release changes.
 

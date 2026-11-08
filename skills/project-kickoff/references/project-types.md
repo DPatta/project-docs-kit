@@ -16,7 +16,7 @@ suggest, and typical phases to propose.
   - Does it have a user interface (web, mobile or desktop screens)? — only if the brief does not say
 - **Working rules:**
   - Run the project's tests and linters before moving a task to `review`.
-  - Do not add a dependency or change the stack without a new entry in `docs/DECISIONS.md`.
+  - Do not add a dependency or change the stack without a new decision in `docs/decisions/` (and its index row).
   - Keep secrets out of the repository; document required environment variables in `docs/STACK.md`.
 - **Typical skills:** `coding-conventions`, `testing-workflow`, `release-checklist`, `api-contract`
 - **Typical phases:** Foundation → MVP → Hardening → Launch

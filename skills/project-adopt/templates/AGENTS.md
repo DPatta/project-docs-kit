@@ -38,7 +38,13 @@ This file does not record progress — it would go stale. Derive it:
 - All project documents and agent tasks are written in English.
 {{DOCS_RULE: "- Creating or editing agent tasks, issues, reports or decisions → follow `.claude/skills/project-docs/SKILL.md`." if project-docs is installed; delete this line otherwise}}
 {{FEATURE_RULE: "- A request for a new feature or more scope → follow `.claude/skills/project-docs/adding-a-feature.md`." if project-docs is installed; delete this line otherwise}}
-- Record significant choices, and what was rejected, in {{DECISIONS_PATH: the ADR folder or docs/DECISIONS.md in backticks; "the pull request description" if neither exists}}.
+{{LOAD_RULE: if the Project skills section or the Recommended tools section remains, these five lines verbatim; delete this line otherwise:
+- Before a task, load every row of "Project skills" and every row of "Recommended tools" whose
+  kind includes `skill` or `plugin` and whose "Use when" matches the work. A project skill that
+  your tool cannot load as a skill is plain markdown: open the file and follow it. A
+  recommended tool that is not available is not installed or is turned off for this user: skip
+  it and say so in your report.}}
+- Record significant choices, and what was rejected, {{DECISIONS_PATH: "as a new file in `docs/decisions/` with a row in the index `docs/DECISIONS.md`" when this adoption creates the decision log; otherwise "in " plus the existing ADR folder or decision log in backticks; "in the pull request description" if neither exists}}.
 - Never change a ticket's status in the tracker without asking the human.
 - Values marked `Unknown` are open questions — ask the human; do not assume.
 {{EXTRA_RULES: one bullet per existing rule file with content, e.g. "- Additional rules live in `CLAUDE.md` — read it whatever agent you are." (same for GEMINI.md, .cursorrules, .cursor/rules/; skip a file that is a symlink to AGENTS.md); then one bullet per answer to the closing "unwritten conventions" question; delete this line if none}}
@@ -57,7 +63,7 @@ Skills are plain markdown. Agents without native skill support should open the f
 
 ## Recommended tools (Claude Code)
 
-Optional, installed per user — not part of this repo. Other agents can ignore this section.
+Installed per user — not part of this repo. Tools that are not installed are skipped (see Working rules).
 
 | Tool | Kind | Use when | Source / install |
 |---|---|---|---|

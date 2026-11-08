@@ -5,6 +5,39 @@ and the project structure version that `project-kickoff` writes to
 `.claude/skills/project-docs/KIT-VERSION` in a project, so a later release can tell which
 structure a project was made with.
 
+## unreleased (project structure 2)
+
+A new project structure, and upgrade mode to reach it. Projects made with structure 1 keep
+working; run `project-kickoff` in one to upgrade it.
+
+- **One file per decision.** Decisions live in `docs/decisions/D-NNNN-<slug>.md` (front matter
+  `id`, `title`, `date`, `supersedes`, `superseded-by`), and `docs/DECISIONS.md` becomes a short
+  index with a status per decision (`active`, `partly superseded by …`, `superseded by …`).
+  Agents read the index and open only the decisions that touch their work. A change never
+  rewrites an entry: a new decision lists the old id in `supersedes`, and the old file gains it
+  in `superseded-by`. project-adopt uses the same layout when it creates a decision log; an
+  existing ADR folder or log is kept.
+- **Agents load matching skills and tools.** AGENTS.md Working rules tell every agent to load
+  the Project skills and Recommended tools (skills and plugins) whose "Use when" matches the
+  task, to read a project skill as plain markdown when it cannot load it, and to skip and
+  report a tool that is not installed. The Recommended tools intro no longer says other agents
+  can ignore it.
+- **Related tools in project skills.** Each new project skill skeleton has a `## Related tools`
+  section listing the chosen Recommended tools that apply when using it.
+- **New libraries get tool rows.** project-docs: a decision that adds a dependency or changes
+  the stack checks for matching Claude Code tools, following the new
+  `.claude/skills/project-docs/finding-tools.md`, which works without the kit installed.
+- **Upgrade mode (structure 1 → 2).** project-kickoff, run in a project it set up earlier,
+  scans it, shows a plan and waits for a yes. It merges your own edits to
+  `.claude/skills/project-docs/` with the new template (three-way, shown as a diff), splits the
+  decision log with byte-identical bodies and a relation table you confirm, edits only the
+  named AGENTS.md lines, adds `## Related tools` to project skills, and writes `KIT-VERSION`
+  last. Without git it backs up every changed file to `.kickoff-backup/<date>/`. It never
+  commits.
+- **New script** `skills/project-kickoff/scripts/check-decisions.sh`: a read-only check of the
+  split decision log that upgrade mode runs as its self-check (bash; on Windows the agent runs
+  the same checks by reading the files).
+
 ## 1.2.0 — 2026-11-08 (project structure 1)
 
 Better stack tool suggestions and a commit check. Generated files keep the same structure.

@@ -195,12 +195,17 @@ Source / install:
 - MCP from tier 2 or 3 → the vendor's documented `claude mcp add …` command, then
   `needs <SECRET_NAME>` for each secret — the name only, never a value
 
+`{{RELATED_TOOLS}}` in each new project skill skeleton: one bullet per chosen tool whose "Use
+when" applies when using that skill — ``- `<name>` — <when, in this skill's terms>`` — or
+`- None` when no chosen tool applies. A tool may appear in several skills. `project-docs` gets
+no section.
+
 ## 10. Decide-task criterion
 
 When Claude is among the AI tools, every `Decide …` task about a stack area gets this
 acceptance criterion:
 
-`- [ ] Check for matching stack tools (see AGENTS.md → Recommended tools); add the rows the user picks`
+`- [ ] Check for matching stack tools (.claude/skills/project-docs/finding-tools.md); add the rows the user picks`
 
 The stack areas are Language, Framework, Data / Storage, Hosting / Infra, Testing, CI/CD and
 Other in project-kickoff, and in project-adopt any `Unknown` of the scan topic "Stack"

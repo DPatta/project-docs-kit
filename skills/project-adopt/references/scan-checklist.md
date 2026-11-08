@@ -35,7 +35,7 @@ Each topic gets one row: `Topic | Finding | Evidence | State`.
 | Code conventions | no | leave out |
 | Git conventions | no | leave out |
 | Doc locations | no | leave out |
-| Decision records | no | gap-fill offer `docs/DECISIONS.md` |
+| Decision records | no | gap-fill offer `docs/DECISIONS.md` (index) + `docs/decisions/` (one file per decision) |
 | Tracker | yes | "No tracker — markdown only"; gap-fill offer `docs/issues/` |
 | Existing AI config | no | leave out |
 | Related repos | no | leave out (section deleted) |

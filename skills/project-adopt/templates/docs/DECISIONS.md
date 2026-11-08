@@ -6,17 +6,40 @@ updated: {{DATE}}
 
 # Decision Log
 
-Append-only, newest at the bottom. Never rewrite an entry — add a new one that supersedes it
-and write `Supersedes: D-NNNN` in it. Next id = highest `D-NNNN` + 1.
+One file per decision in `docs/decisions/`, named `D-NNNN-<slug>.md`. This file is the index:
+read it, then open only the decisions that touch your work.
 
-Entry format:
+Rules:
+
+- Next id = highest `D-NNNN` in the table + 1, assigned when the file is written.
+- Never rewrite an entry. A change is a new entry whose `supersedes` lists the old id; then add
+  the new id to the old file's `superseded-by` (the only edit allowed in an old file) and update
+  the old row's status here.
+- Every new decision adds one row to the table below, oldest first.
+
+Decision file format (template: `.claude/skills/project-docs/templates/decision.md`):
+
+```markdown
+---
+id: D-NNNN
+title: "<title>"
+date: YYYY-MM-DD
+supersedes: []        # ids this entry replaces in whole or in part
+superseded-by: []     # ids of later entries that replace this one
+---
+
+# D-NNNN — <title>
 
 - **Decision:** what was chosen
 - **Why:** the reason
 - **Rejected:** alternatives considered and why not
+- **Supersedes:** D-xxxx, only <the part> (optional)
+```
 
-## D-0001 — {{DATE}} — Adopted AI-readable project docs
+Status: `active`; `partly superseded by D-yyyy` when the later entry replaces only a part (its
+Supersedes line says "only …", or it amends or narrows a part); `superseded by D-yyyy` when it
+replaces the whole entry. With several ids, list them as in `superseded-by`, comma-separated.
 
-- **Decision:** {{ADOPT_DECISION: one or two sentences — AGENTS.md map added, the agent task store chosen, gap fills created, AI pointer files}}
-- **Why:** {{ADOPT_WHY: reasons the user gave; "Not stated" if none}}
-- **Rejected:** {{ADOPT_REJECTED: options declined in steps 3–4 and why; "None discussed" if none}}
+| Decision | Date | Title | Status |
+|---|---|---|---|
+| [D-0001](decisions/D-0001-adopted-ai-readable-project.md) | {{DATE}} | Adopted AI-readable project docs | active |

@@ -21,6 +21,10 @@ status: draft
 
 - TODO
 
+## Related tools
+
+{{RELATED_TOOLS: one bullet per Recommended tools row (AGENTS.md) that applies when using this skill — "- `<name>` — <when>"; "- None" if no row applies}}
+
 ## Examples
 
 - TODO

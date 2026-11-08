@@ -112,11 +112,23 @@ Set `period: <start> to <end>`.
 ## Decisions
 
 Whenever you choose between real alternatives, record it in `{{DECISIONS_PATH}}`.
-- If that is an ADR folder, copy the format and numbering of its newest file.
-- If it is `docs/DECISIONS.md`, append a `D-NNNN` entry (next id = highest + 1, assigned when
-  you write the entry).
+- If that is `docs/decisions/` with the index `docs/DECISIONS.md` (files named
+  `D-NNNN-<slug>.md`): create the file from `templates/decision.md` and add its row to the
+  index table. `<slug>` = the first 1–6 words of the title, by the `<kebab-topic>` character
+  rule above. Next id = highest `D-NNNN` in the index + 1, assigned when you write the file.
+  Never rewrite an old entry: a change is a new entry that lists the old id in `supersedes`;
+  then add the new id to the old file's `superseded-by` (the only edit allowed in an old file)
+  and update the old row's status in the index.
+- If it is another ADR folder, copy the format and numbering of its newest file.
+- If it is a single log file, append an entry in its format (next id = highest + 1, assigned
+  when you write the entry).
+- In an ADR folder or a single log, never edit old entries; supersede them with a new one that
+  names the old id.
 - Never pre-assign an id in a task — write "record the decision in `{{DECISIONS_PATH}}`" instead.
-  Never edit old entries; supersede them with a new one that names the old id.
+- A decision that adds a dependency or changes the stack also checks for matching Claude Code
+  tools, following `finding-tools.md` next to this file, and adds the rows the user picks to
+  `AGENTS.md` → Recommended tools, and to the `## Related tools` section of each project skill
+  they apply to, in the same change.
 
 ## Project conventions
 
