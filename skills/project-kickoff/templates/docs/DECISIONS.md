@@ -15,7 +15,8 @@ Rules:
 - Never rewrite an entry. A change is a new entry whose `supersedes` lists the old id; then add
   the new id to the old file's `superseded-by` (the only edit allowed in an old file) and update
   the old row's status here.
-- Every new decision adds one row to the table below, oldest first.
+- Every new decision adds one row to the table below, oldest first. Adding or changing a
+  row sets `updated:` above to today.
 
 Decision file format (template: `.claude/skills/project-docs/templates/decision.md`):
 

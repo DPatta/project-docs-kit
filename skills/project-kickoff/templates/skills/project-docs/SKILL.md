@@ -110,7 +110,8 @@ to `done`, tasks in progress, issues opened and resolved, decisions added to
 ## Decisions
 
 Whenever you choose between real alternatives, create `docs/decisions/D-NNNN-<slug>.md` from
-`templates/decision.md` and add its row to the index table in `docs/DECISIONS.md`.
+`templates/decision.md` and add its row to the index table in `docs/DECISIONS.md`; set the
+index's `updated:` to today whenever you add or change a row.
 - `<slug>`: the first 1–6 words of the title, by the `<kebab-topic>` character rule above.
 - Next id = highest `D-NNNN` in the index + 1, assigned at the moment you write the file. Never
   pre-assign a `D-NNNN` id in a task or elsewhere — write "add a decision (docs/decisions/)"
@@ -122,3 +123,9 @@ Whenever you choose between real alternatives, create `docs/decisions/D-NNNN-<sl
   tools, following `finding-tools.md` next to this file, and adds the rows the user picks to
   `AGENTS.md` → Recommended tools, and to the `## Related tools` section of each project skill
   they apply to, in the same change.
+- A decision that changes an earlier choice also updates, in the same change, every doc that
+  still states the old choice (a stack table row, the summary in `AGENTS.md` or the project
+  brief, architecture notes); a doc with `status: approved` needs the human's yes first.
+- A decision that removes a technology lists that technology's rows in `AGENTS.md` →
+  Recommended tools and its bullets in `## Related tools` sections, and removes each one only
+  when the user says yes.

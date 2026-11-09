@@ -114,8 +114,9 @@ Set `period: <start> to <end>`.
 Whenever you choose between real alternatives, record it in `{{DECISIONS_PATH}}`.
 - If that is `docs/decisions/` with the index `docs/DECISIONS.md` (files named
   `D-NNNN-<slug>.md`): create the file from `templates/decision.md` and add its row to the
-  index table. `<slug>` = the first 1–6 words of the title, by the `<kebab-topic>` character
-  rule above. Next id = highest `D-NNNN` in the index + 1, assigned when you write the file.
+  index table (set the index's `updated:` to today whenever you add or change a row).
+  `<slug>` = the first 1–6 words of the title, by the `<kebab-topic>` character rule above.
+  Next id = highest `D-NNNN` in the index + 1, assigned when you write the file.
   Never rewrite an old entry: a change is a new entry that lists the old id in `supersedes`;
   then add the new id to the old file's `superseded-by` (the only edit allowed in an old file)
   and update the old row's status in the index.
@@ -129,6 +130,12 @@ Whenever you choose between real alternatives, record it in `{{DECISIONS_PATH}}`
   tools, following `finding-tools.md` next to this file, and adds the rows the user picks to
   `AGENTS.md` → Recommended tools, and to the `## Related tools` section of each project skill
   they apply to, in the same change.
+- A decision that changes an earlier choice also updates, in the same change, every doc that
+  still states the old choice (a stack table row, the summary in `AGENTS.md` or the project
+  brief, architecture notes); a doc with `status: approved` needs the human's yes first.
+- A decision that removes a technology lists that technology's rows in `AGENTS.md` →
+  Recommended tools and its bullets in `## Related tools` sections, and removes each one only
+  when the user says yes.
 
 ## Project conventions
 

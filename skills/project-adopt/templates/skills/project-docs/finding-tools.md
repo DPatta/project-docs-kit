@@ -26,8 +26,9 @@ first tier with a name match (§3).
      `agents/*.md`. Name these `<plugin>:<name>`.
    - Leave out turned-off tools. Read only the keys `skillOverrides` and `enabledPlugins` of
      `~/.claude/settings.json`, then `.claude/settings.json` and `.claude/settings.local.json`
-     of this project (a later file wins), with a command that parses the JSON and prints just
-     those two keys. Never open a whole settings file: it can hold secrets. A skill is off when
+     of this project (a later file wins), with a command that parses the JSON and prints only the
+     entries of those two keys for the tools found above (the keys can hold hundreds of
+     entries). Never open a whole settings file: it can hold secrets. A skill is off when
      its `skillOverrides` value is `"off"`; every tool of a plugin is off when its
      `enabledPlugins` value is `false`.
    - Leave out a tool made for another project or team (its description names it, or says

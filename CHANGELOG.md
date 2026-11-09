@@ -5,6 +5,25 @@ and the project structure version that `project-kickoff` writes to
 `.claude/skills/project-docs/KIT-VERSION` in a project, so a later release can tell which
 structure a project was made with.
 
+## 2.1.1 — 2026-11-09 (project structure 2)
+
+Wording fixes found by running day-to-day agent scenarios on a structure-2 project. Generated
+files keep the same structure.
+
+- project-kickoff: the 2–6 phase-1 tasks do not count the `Decide` tasks, and features get
+  their first task in feature-number order (the roadmap lists phases, not features).
+- project-docs Decisions: a decision that changes an earlier choice also updates every doc that
+  still states the old choice (asking first for an `approved` doc); a decision that removes a
+  technology asks before removing its Recommended tools rows and `## Related tools` bullets;
+  adding or changing an index row sets the index's `updated:`.
+- Decision template: the Why is "Not stated" when the user gave no reason, never invented.
+- `finding-tools.md` and `references/stack-tools.md`: read only the `skillOverrides` and
+  `enabledPlugins` entries of the tools found, not the whole keys.
+- Projects already on structure 2 keep their copy of project-docs; upgrade mode does not
+  change it. To take the new rules, copy `SKILL.md`, `finding-tools.md` and
+  `templates/decision.md` from `skills/project-kickoff/templates/skills/project-docs/` into
+  `.claude/skills/project-docs/`.
+
 ## 2.1.0 — 2026-11-09 (project structure 2)
 
 A feature's task count is a check, not a cap. Generated files keep the same structure.

@@ -233,8 +233,9 @@ Revise until the user explicitly confirms. Do not write any file before that.
      table order, then `Decide phase-1 features`. `<topic>` is the item or area name as the
      doc writes it, lowercased (`Decide testing`, `Decide data / storage`)
    - then 2–6 tasks in total for the phase-1 features (a cap on planning ahead, not on a
-     feature's size), each with `feature:` set to its feature. Give each phase-1 feature at
-     least one task, in ROADMAP order, until the 6 are used; a feature left without a task
+     feature's size; the `Decide` tasks above are not counted), each with `feature:` set to
+     its feature. Give each phase-1 feature at least one task, in feature-number order, until
+     the 6 are used; a feature left without a task
      gets its tasks later through `adding-a-feature.md` step 6, and is named in the summary
      and at handoff. When the brief's phase-1 features are `Undecided`, only
      `ui-design-system` (if any) gets tasks — the `Decide phase-1 features` task covers the

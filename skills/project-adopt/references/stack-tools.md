@@ -62,8 +62,9 @@ candidates together (§4).
 - Turned-off tools are not candidates. Read only the keys `skillOverrides` and
   `enabledPlugins` of `~/.claude/settings.json`, then of the project's `.claude/settings.json`
   and `.claude/settings.local.json` when they exist (a later file wins for the same key). Read
-  them only with a command that parses the JSON and prints just those two keys (for example a
-  one-line `python3` or `node` script); never open a whole settings file, and never print or
+  them only with a command that parses the JSON and prints only the entries of those two keys for
+  the tools found above (for example a one-line `python3` or `node` script; the keys can
+  hold hundreds of entries); never open a whole settings file, and never print or
   copy any other key, because these files can hold secrets. A skill is turned off when its
   `skillOverrides` value is `"off"` (key `<name>`, or `<plugin>:<name>` for a plugin's skill).
   Every skill, agent and MCP server of a plugin is turned off when its `enabledPlugins` value is
