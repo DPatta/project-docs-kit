@@ -5,6 +5,24 @@ and the project structure version that `project-kickoff` writes to
 `.claude/skills/project-docs/KIT-VERSION` in a project, so a later release can tell which
 structure a project was made with.
 
+## 2.1.0 — 2026-11-09 (project structure 2)
+
+A feature's task count is a check, not a cap. Generated files keep the same structure.
+
+- project-docs `adding-a-feature.md`: a feature gets as many tasks as the work needs, where a
+  task is one piece of work that can be reviewed on its own. Above 6 tasks, the agent stops
+  and asks the human to split the feature or keep it whole, and logs a `kept whole` choice in
+  the feature. Adding tasks during work asks again only when the count passes that number.
+  This replaces the fixed limit of 1–6 tasks per feature, which pushed agents to merge
+  unrelated work into one task.
+- project-kickoff keeps its limit of 2–6 tasks in total for phase 1 (a limit on planning
+  ahead), gives each phase-1 feature at least one task while the limit allows, and names the
+  features left without a task in the summary and at handoff.
+- Projects already on structure 2 keep their copy of `adding-a-feature.md`; upgrade mode does
+  not change it. To take the new rule, copy the file from
+  `skills/project-kickoff/templates/skills/project-docs/` into
+  `.claude/skills/project-docs/`.
+
 ## 2.0.0 — 2026-11-08 (project structure 2)
 
 A new project structure, and upgrade mode to reach it. Projects made with structure 1 keep

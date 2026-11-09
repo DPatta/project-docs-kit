@@ -47,10 +47,17 @@ and do not assume.
    - Every change follows Status transitions in `SKILL.md`: set `updated:` and add a Log line.
 6. **Tasks**, created only when the feature is `approved` and its phase is `active` (or there
    is no roadmap):
-   - 1–6 tasks from `templates/task.md`, each with `feature: <feature id>`. If the feature's
-     acceptance criteria are `Undecided`, the first task is `Decide <feature title> acceptance
-     criteria`. Add the task ids
-     to the feature's `related`, and the feature id to each task's `related`.
+   - As many tasks from `templates/task.md` as the work needs, each with
+     `feature: <feature id>`. A task is one piece of work that can be reviewed on its own and
+     has its own acceptance criteria: never merge unrelated work into one task to keep the
+     count down, and never split work that only makes sense done together.
+   - More than 6 tasks → write none yet. Show the list and ask the human to split the feature
+     (step 3 for each new feature) or keep it whole. Keep whole → log
+     `- <date> kept whole with <n> tasks — <reason>` and write the tasks. Split → write the
+     tasks of each feature as it reaches this step.
+   - If the feature's acceptance criteria are `Undecided`, the first task is `Decide <feature
+     title> acceptance criteria`. Add the task ids to the feature's `related`, and the feature
+     id to each task's `related`.
    - UI `needs mockup` → the first task designs the screen. It adds a mockup in
      `design-ui/proposals/` and an entry under Screens in `DESIGN.md`. Each build task says
      `Starts after task-NNNN` in its Notes.
@@ -61,5 +68,7 @@ and do not assume.
 8. **Change during work.**
    - Edit the feature's Scope or Acceptance criteria, set `updated:`, and log
      `- <date> scope changed — <reason>`.
-   - Add or cancel tasks to match.
+   - Add or cancel tasks to match. If the feature's tasks that are not `cancelled` would go
+     above 6, and above the `<n>` of its latest `kept whole` Log line, ask the human first as
+     in step 6.
    - If an alternative was rejected, record the decision.

@@ -167,7 +167,7 @@ Show, in the user's language:
 - PROJECT.md essentials: name, type, goals, non-goals, success criteria
 - phases, with phase-1 marked active and every phase name or goal the brief does not state
   marked `(proposed)`, and the features of each phase
-- the initial task list (number + title)
+- the initial task list (number + title), and the phase-1 features that get no task yet
 - design docs: `docs/design/ARCHITECTURE.md` (Software), and the UI set `DESIGN.md` +
   `design-ui/` with its `ui-design-system` feature (projects with a user interface); existing
   design docs are kept as they are and named as such
@@ -232,9 +232,13 @@ Revise until the user explicitly confirms. Do not write any file before that.
      with `feature: none`, in this order: PROJECT.md items, then the type doc's areas in its
      table order, then `Decide phase-1 features`. `<topic>` is the item or area name as the
      doc writes it, lowercased (`Decide testing`, `Decide data / storage`)
-   - then 2–6 tasks for the phase-1 features, each with `feature:` set to its feature.
-     When the brief's phase-1 features are `Undecided`, only `ui-design-system` (if any)
-     gets tasks — the `Decide phase-1 features` task covers the rest.
+   - then 2–6 tasks in total for the phase-1 features (a cap on planning ahead, not on a
+     feature's size), each with `feature:` set to its feature. Give each phase-1 feature at
+     least one task, in ROADMAP order, until the 6 are used; a feature left without a task
+     gets its tasks later through `adding-a-feature.md` step 6, and is named in the summary
+     and at handoff. When the brief's phase-1 features are `Undecided`, only
+     `ui-design-system` (if any) gets tasks — the `Decide phase-1 features` task covers the
+     rest.
    - numbered from `0001`, all `status: todo`, `ticket: none`
    - acceptance criteria may say "add a decision (docs/decisions/)" but never pre-assign a
      `D-NNNN` id
@@ -330,6 +334,7 @@ Report:
 - files created, and files skipped with the reason
 - existing design docs: used or not, and for each front matter diff whether it was applied
 - `Undecided` items and their tasks
+- phase-1 features with no task yet (their tasks come from `adding-a-feature.md` step 6)
 - stack tools: installed / failed / referenced, with follow-ups (reload plugins, commands the
   user must run with their own key)
 - next steps: (1) review PROJECT.md, ROADMAP.md, the type doc and any design docs, then set
